@@ -1,47 +1,38 @@
 #!/usr/bin/python3
 """
-script that reads stdin line by line and computes metrics
+Script that reads stdin line by line and computes metrics
 """
-from sys import stdin
+import sys
 
-status_codes = {
-    "200": 0,
-    "301": 0,
-    "400": 0,
-    "401": 0,
-    "403": 0,
-    "404": 0,
-    "405": 0,
-    "500": 0
-}
+total_size = 0
+counter = 0
 
-size = 0
+dict_codes_counter = {'200': 0, '301': 0, '400': 0, '401': 0,
+                      '403': 0, '404': 0, '405': 0, '500': 0}
 
+try:
+    for line in sys.stdin:
+        line_list = line.split(" ")
+        if len(line_list) > 2:
+            code = line_list[-2]
+            size = int(line_list[-1])
+            if code in dict_codes_counter.keys():
+                dict_codes_counter[code] += 1
+            total_size += size
+            counter += 1
 
-def print_stats():
-    """Prints the accumulated logs"""
-    print("File size: {}".format(size))
-    for status in sorted(status_codes.keys()):
-        if status_codes[status]:
-            print("{}: {}".format(status, status_codes[status]))
+        if counter == 10:
+            print("File size: {:d}".format(total_size))
+            for k, v in sorted(dict_codes_counter.items()):
+                if v != 0:
+                    print("{}: {:d}".format(k, v))
+            counter = 0
 
+except Exception:
+    pass
 
-if __name__ == "__main__":
-    count = 0
-    try:
-        for line in stdin:
-            try:
-                items = line.split()
-                size += int(items[-1])
-                if items[-2] in status_codes:
-                    status_codes[items[-2]] += 1
-            except:
-                pass
-            if count == 9:
-                print_stats()
-                count = -1
-            count += 1
-    except KeyboardInterrupt:
-        print_stats()
-        raise
-    print_stats()
+finally:
+    print("File size: {}".format(total_size))
+    for k, v in sorted(dict_codes_counter.items()):
+        if v != 0:
+            print("{}: {}".format(k, v))
