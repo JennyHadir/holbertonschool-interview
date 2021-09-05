@@ -35,7 +35,7 @@ try:
 except KeyboardInterrupt:
     pass
 
-finally:    
+finally:
     print("File size: {}".format(size))
     for status in sorted(status_code.keys()):
         if status_code[status]:
