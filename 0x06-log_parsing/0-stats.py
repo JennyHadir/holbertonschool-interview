@@ -2,11 +2,9 @@
 """
 script that reads stdin line by line and computes metrics
 """
-import sys
+from sys import stdin
 
-size = 0
-counter = 0
-status_code = {
+status_codes = {
     "200": 0,
     "301": 0,
     "400": 0,
@@ -16,27 +14,34 @@ status_code = {
     "405": 0,
     "500": 0
 }
-try:
-    for line in sys.stdin:
-        items = line.split(" ")
-        if len(items) > 2:
-            code = items[-2]
-            size += int(items[-1])
-            if code in status_code:
-                status_code[code] += 1
-            counter += 1
-        if counter == 10:
-            print("File size: {}".format(size))
-            for status in sorted(status_code.keys()):
-                if status_code[status]:
-                    print("{}: {}".format(status, status_code[status]))
-            counter = 0
 
-except KeyboardInterrupt:
-    pass
-    
-finally:    
+size = 0
+
+
+def print_stats():
+    """Prints the accumulated logs"""
     print("File size: {}".format(size))
-    for status in sorted(status_code.keys()):
-        if status_code[status]:
-            print("{}: {}".format(status, status_code[status]))
+    for status in sorted(status_codes.keys()):
+        if status_codes[status]:
+            print("{}: {}".format(status, status_codes[status]))
+
+
+if __name__ == "__main__":
+    count = 0
+    try:
+        for line in stdin:
+            try:
+                items = line.split()
+                size += int(items[-1])
+                if items[-2] in status_codes:
+                    status_codes[items[-2]] += 1
+            except:
+                pass
+            if count == 9:
+                print_stats()
+                count = -1
+            count += 1
+    except KeyboardInterrupt:
+        print_stats()
+        raise
+    print_stats()
