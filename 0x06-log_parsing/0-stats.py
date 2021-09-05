@@ -4,7 +4,7 @@ Script that reads stdin line by line and computes metrics
 """
 import sys
 
-total_size = 0
+size = 0
 counter = 0
 
 dict_codes_counter = {'200': 0, '301': 0, '400': 0, '401': 0,
@@ -18,7 +18,7 @@ try:
             size = int(line_list[-1])
             if code in dict_codes_counter.keys():
                 dict_codes_counter[code] += 1
-            total_size += size
+            size += size
             counter += 1
 
         if counter == 10:
