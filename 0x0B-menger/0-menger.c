@@ -2,7 +2,7 @@
 /**
 * menger - draws a 2D Menger Sponge
 * @level: level of the Menger Sponge to draw
-* Rturn: void
+* Return: Void
 **/
 void menger(int level)
 {
