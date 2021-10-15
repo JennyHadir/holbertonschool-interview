@@ -11,7 +11,7 @@ def minOperations(n):
     operation = 1
     while num < n:
         if n % num == 0 and num != cp:
-            copy = num
+            cp = num
             operation += 1
         num = num + cp
         operation += 1
