@@ -1,5 +1,4 @@
 #include "search.h"
-
 /**
  * linear_skip - Search for a value in a skip list.
  * @list: Pointer to the head of the skip list.
@@ -11,6 +10,7 @@ skiplist_t *linear_skip(skiplist_t *list, int value)
 	if (list != NULL)
 	{
 		skiplist_t *tmp, *nextTmp;
+
 		tmp = list;
 		nextTmp = tmp->express;
 		while (nextTmp != NULL)
