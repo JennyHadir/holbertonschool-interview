@@ -17,12 +17,3 @@ def rain(walls):
             drops += (min(left_wall, right_wall) - walls[i])
         return drops
     return 0
-                
-
-
-        
-
-
-                    
-                
-
