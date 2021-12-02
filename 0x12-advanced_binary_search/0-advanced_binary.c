@@ -12,7 +12,7 @@
 int advanced_binary(int *array, size_t size, int value)
 {
 	if (array && size > 1)
-		return recursion_advanced_binary(array, 0, size - 1, value);
+		return (recursion_advanced_binary(array, 0, size - 1, value));
 
 	return (-1);
 }
@@ -34,10 +34,10 @@ int recursion_advanced_binary(int *array, int first, int last, int value)
 		return (-1);
 
 	printf("Searching in array: ");
-	for(i = first; i <= last; i++)
+	for (i = first; i <= last; i++)
 	{
 		printf("%d", array[i]);
-		if(i < last)
+		if (i < last)
 			printf(", ");
 		else
 			printf("\n");
@@ -47,7 +47,7 @@ int recursion_advanced_binary(int *array, int first, int last, int value)
 		return (first);
 
 	if (array[middle] < value)
-		return recursion_advanced_binary(array, middle + 1, last, value);
+		return (recursion_advanced_binary(array, middle + 1, last, value));
 
-	return recursion_advanced_binary(array, first, middle, value);
+	return (recursion_advanced_binary(array, first, middle, value));
 }
