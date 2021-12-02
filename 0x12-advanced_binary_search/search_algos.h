@@ -5,6 +5,6 @@
 #include <stdlib.h>
 
 int advanced_binary(int *array, size_t size, int value);
-int binary_search(int *array, int start, int end, int value);
+int recursion_advanced_binary(int *array, int first, int last, int value);
 
 #endif /* SEARCH_ALGOS_H */

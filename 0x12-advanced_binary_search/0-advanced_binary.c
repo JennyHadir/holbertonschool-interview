@@ -3,52 +3,51 @@
 #include "search_algos.h"
 
 /**
- * advanced_binary - binary search
- * @array: array to search
- * @size: size of array
- * @value: value to search for
- *
- * Return: index of value, -1 if not found
+ * advanced_binary - searches for a value in a sorted array of integers
+ * @array: is a pointer to the first element of the array to search in
+ * @size: is the number of elements in array
+ * @value: is the value to search for
+ * Return: return the index where value is located, -1 otherwise
  */
 int advanced_binary(int *array, size_t size, int value)
 {
-	if (array == NULL || size < 1)
-		return (-1);
+	if (array && size > 1)
+		return recursion_advanced_binary(array, 0, size - 1, value);
 
-	return (binary_search(array, 0, size - 1, value));
+	return (-1);
 }
 
 /**
- *binary_search - binary search
- * @array: array to search
- * @left: left index
- * @right: right index
- * @value: value to search for
- *
- * Return: index of value, -1 if not found
+ * recursion_advanced_binary - recursive search for a value in a sorted array of integers
+ * @array: is a pointer to the first element of the array to search in
+ * @first: is the first element of the array
+ * @last: is the last element of the array
+ * @value: is the value to search for
+ * Return: return the index where value is located, -1 otherwise
  */
-int binary_search(int *array, int left, int right, int value)
+int recursion_advanced_binary(int *array, int first, int last, int value)
 {
-	int mid = (left + right) / 2;
+	int middle = (first + last) / 2;
 	int i;
 
-	if (left > right)
+	if (first > last)
 		return (-1);
-	printf("Searching in array: ");
 
-	for (i = left; i <= right; i++)
+	printf("Searching in array: ");
+	for(i = first; i <= last; i++)
 	{
-		if (i < right)
-			printf("%d, ", array[i]);
+		printf("%d", array[i]);
+		if(i < last)
+			printf(", ");
 		else
-			printf("%d\n", array[i]);
+			printf("\n");
 	}
 
-	if (array[left] == value)
-		return (left);
+	if (array[first] == value)
+		return (first);
 
-	if (array[mid] < value)
-		return (binary_search(array, mid + 1, right, value));
+	if (array[middle] < value)
+		return recursion_advanced_binary(array, middle + 1, last, value);
 
-	return (binary_search(array, left, mid, value));
+	return recursion_advanced_binary(array, first, middle, value);
 }
