@@ -40,8 +40,6 @@ void printAns(int *ans, int i)
  */
 int _isDigit(int num)
 {
-	int i;
-
 	if (num >= 48 || num <= 57)
 	{
 		return (0);
@@ -61,7 +59,12 @@ int checkArguments(int argc, char *argv[])
 
 	if (argc != 3)
 	{
-		write(1, "Error\n", 6);
+		_putchar('E');
+        _putchar('r');
+		_putchar('r');
+        _putchar('o');
+        _putchar('r');
+        _putchar('\n');
 		exit(98);
 	}
 	for (i = 0; i < argc; i++)
@@ -70,7 +73,12 @@ int checkArguments(int argc, char *argv[])
 		{
 			if (!_isDigit(argv[i][arg]))
 			{
-				write(1, "Error\n", 6);
+				_putchar('E');
+        		_putchar('r');
+				_putchar('r');
+        		_putchar('o');
+        		_putchar('r');
+        		_putchar('\n');
 				exit(98);
 			}
 		}        
