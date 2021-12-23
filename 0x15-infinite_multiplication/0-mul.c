@@ -7,15 +7,16 @@
  */
 int _strlen(char *s)
 {
-    int length = 0;
-    if (s)
-    {
-        for (int i = 0; s[i]; i++)
-        {
-            length++;
-        }
-    }
-    return(length);
+	int i, ln = 0;
+
+	if (s)
+	{
+		for (i = 0; s[i]; i++)
+		{
+			ln++;
+		}
+	}
+	return (ln);
 }
 
 /**
@@ -25,7 +26,7 @@ int _strlen(char *s)
  */
 void printAns(int *ans, int i)
 {
-    for (; i >= 0; i--)
+	for (; i >= 0; i--)
 	{
 		_putchar(ans[i] + '0');
 	}
@@ -39,13 +40,13 @@ void printAns(int *ans, int i)
  */
 int _isDigit(int num)
 {
-    int i;
+	int i;
 
-    if (num >= 48 || num <= 57)
-    {
-        return (0);
-    }
-    return (1);
+	if (num >= 48 || num <= 57)
+	{
+		return (0);
+	}
+	return (1);
 }
 
 /**
@@ -56,26 +57,27 @@ int _isDigit(int num)
  */
 int checkArguments(int argc, char *argv[])
 {
-    int i, arg;
-    if (argc != 3)
-    {
-        write(1, "Error\n", 6);
+	int i, arg;
+
+	if (argc != 3)
+	{
+		write(1, "Error\n", 6);
 		exit(98);
-    }
-    for (i = 0; i < argc; i++)
-    {
-        for (arg = 0; argv[i][arg]; arg++)
-        {
-            if (!_isDigit(argv[i][arg]))
-            {
-                write(1, "Error\n", 6);
-		        exit(98);
-            }
-        }
-        
-    }
-    return (0);
+	}
+	for (i = 0; i < argc; i++)
+	{
+		for (arg = 0; argv[i][arg]; arg++)
+		{
+			if (!_isDigit(argv[i][arg]))
+			{
+				write(1, "Error\n", 6);
+				exit(98);
+			}
+		}        
+	}
+	return (0);
 }
+
 /**
  * main - main function to multiplie 2 elements
  * @argc: number of arguments
@@ -84,48 +86,48 @@ int checkArguments(int argc, char *argv[])
  */
 int main(int argc, char *argv[])
 {
-    int a[10000], b[10000], ans[10000] = {0};
-    int i, j, tmp, l1, l2;
-    char *s1, *s2;
+	int a[10000], b[10000], ans[10000] = {0};
+	int i, j, tmp, l1, l2;
+	char *s1, *s2;
 
-    checkArguments(argc, argv);
+	checkArguments(argc, argv);
 
-    if (argv[1][0] == 0 || argv[2][0] == 0)
-    {
-        _putchar('0');
-        _putchar('\n');
-        return (0);
-    }
-    s1 = argv[1];
-    s2 = argv[2];
-    l1 = _strlen(s1);
-    l2 = _strlen(s2);
-    for (i = l1 - 1, j = 0; i >= 0; i--, j++)
-    {
-        a[j] = s1[i] - '0';
-    }
-    for (i = l2-1,j=0;i>=0;i--,j++)
-    {
-        b[j] = s2[i]-'0';
-    }
-    for (i = 0;i < l2;i++)
-    {
-        for (j = 0;j < l1;j++)
-        {
-            ans[i+j] += b[i]*a[j];
-        }
-    }
-    for (i = 0;i < l1+l2;i++)
-    {
-        tmp = ans[i]/10;
-        ans[i] = ans[i]%10;
-        ans[i+1] = ans[i+1] + tmp;
-    }
-    for (i = l1+l2; i>= 0;i--)
-    {
-        if (ans[i] > 0)
-            break;
-    }
-    printAns(ans, i);
-    return (0);
+	if (argv[1][0] == 0 || argv[2][0] == 0)
+	{
+		_putchar('0');
+		_putchar('\n');
+		return (0);
+	}
+	s1 = argv[1];
+	s2 = argv[2];
+	l1 = _strlen(s1);
+	l2 = _strlen(s2);
+	for (i = (l1 - 1), j = 0; i >= 0; i--, j++)
+	{
+		a[j] = s1[i] - '0';
+	}
+	for (i = (l2 - 1),j = 0; i >= 0; i--, j++)
+	{
+		b[j] = s2[i] - '0';
+	}
+	for (i = 0; i < l2; i++)
+	{
+		for (j = 0; j < l1; j++)
+		{
+			ans[i + j] += b[i] * a[j];
+		}
+	}
+	for (i = 0; i < (l1 + l2); i++)
+	{
+		tmp = ans[i] / 10;
+		ans[i] = ans[i] % 10;
+		ans[i + 1] = ans[i + 1] + tmp;
+	}
+	for (i = (l1 + l2); i >= 0; i--)
+	{
+		if (ans[i] > 0)
+			break;
+	}
+	printAns(ans, i);
+	return (0);
 }
