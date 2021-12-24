@@ -60,11 +60,11 @@ int checkArguments(int argc, char *argv[])
 	if (argc != 3)
 	{
 		_putchar('E');
-        _putchar('r');
 		_putchar('r');
-        _putchar('o');
-        _putchar('r');
-        _putchar('\n');
+		_putchar('r');
+		_putchar('o');
+		_putchar('r');
+		_putchar('\n');
 		exit(98);
 	}
 	for (i = 0; i < argc; i++)
@@ -74,14 +74,14 @@ int checkArguments(int argc, char *argv[])
 			if (!_isDigit(argv[i][arg]))
 			{
 				_putchar('E');
-        		_putchar('r');
 				_putchar('r');
-        		_putchar('o');
-        		_putchar('r');
-        		_putchar('\n');
+				_putchar('r');
+				_putchar('o');
+				_putchar('r');
+				_putchar('\n');
 				exit(98);
 			}
-		}        
+		}
 	}
 	return (0);
 }
@@ -111,19 +111,13 @@ int main(int argc, char *argv[])
 	l1 = _strlen(s1);
 	l2 = _strlen(s2);
 	for (i = (l1 - 1), j = 0; i >= 0; i--, j++)
-	{
 		a[j] = s1[i] - '0';
-	}
-	for (i = (l2 - 1),j = 0; i >= 0; i--, j++)
-	{
+	for (i = (l2 - 1), j = 0; i >= 0; i--, j++)
 		b[j] = s2[i] - '0';
-	}
 	for (i = 0; i < l2; i++)
 	{
 		for (j = 0; j < l1; j++)
-		{
 			ans[i + j] += b[i] * a[j];
-		}
 	}
 	for (i = 0; i < (l1 + l2); i++)
 	{
