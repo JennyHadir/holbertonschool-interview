@@ -1,30 +1,40 @@
 #!/usr/bin/python3
-""" Count Method
-"""
-from collections import Counter, defaultdict
+"""Get request to reddit API"""
 import requests
 
 
-def count_words(subreddit, word_list, count=None, after=None):
-    headers = {"User-Agent": ""}
-    url = "https://www.reddit.com/r/{}}/hot.json".format(subreddit)
-    response = requests.get(url, headers=headers, allow_redirects=False)
-    if response.status_code == 200:
-        if count is None:
-            count = defaultdict(int)
-        data = response.json().get('data')
-        page = Counter(
-            word for article in data.get('children')
-            for word in article.get('data').get('title').casefold().split()
-        )
-        for word in word_list:
-            if word.casefold() in page:
-                count[word.casefold()] += page.get(word.casefold())
-        if data.get('after') is None:
-            by_key = sorted(count.items(), key=lambda x: x[0])
-            for key, value in sorted(by_key, key=lambda x: x[1], reverse=True):
-                print('{}: {}'.format(key, value))
-        else:
-            count_words(subreddit, word_list, count, data.get('after'))
-
-    
+def count_words(subreddit, word_list, first_call=True, after="", dic={}):
+    """Cound # of keywords"""
+    if first_call:
+        word_list = list(set(word_list))
+        for i, e in enumerate(word_list):
+            word_list[i] = e.lower()
+        d = count_words(subreddit, word_list, False)
+        if d:
+            for key, value in sorted(d.items(), key=lambda x: (-x[1], x[0])):
+                print("{}: {}".format(key, value))
+        elif d is None:
+            return None
+    else:
+        base_url = 'https://www.reddit.com/r/{}/hot.json'.format(subreddit)
+        h = {'User-Agent': 'Reddit API test'}
+        params = {'limit': 200, 'after': after}
+        r = requests.get(base_url, headers=h,
+                         allow_redirects=False, params=params)
+        if r.status_code != 200:
+            return None
+        d = r.json()
+        if after is None:
+            return dic
+        l = d.get('data', {}).get('children')
+        for i in l:
+            title = i.get('data', {}).get('title').lower().split()
+            for j in word_list:
+                for t in title:
+                    if j == t:
+                        if j not in dic:
+                            dic[j] = 1
+                        else:
+                            dic[j] += 1
+        p = d.get('data', {}).get('after')
+        return count_words(subreddit, word_list, False, p, dic)
