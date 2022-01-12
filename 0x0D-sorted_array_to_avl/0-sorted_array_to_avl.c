@@ -1,70 +1,57 @@
 #include "binary_trees.h"
-#include <stdlib.h>
 /**
- * node_creator - create a node
- * 
- * @parent: parent node
- * @n: value of the node 
- * Return: pointer to the node
- */
-
-
-avl_t *node_creator(avl_t *parent, int n)
-{
-	binary_tree_t *node;
-
-	node = malloc(sizeof(binary_tree_t));
-	if (!node)
-		return (NULL);
-	node->parent = parent;
-	node->n = n;
-	node->left = NULL;
-	node->right = NULL;
-	return (node);
-}
-
-/**
- * node_insertion - Insert a node in the avl
- * 
- * @array: pouinter to array
- * @start: first index
- * @end: last index
- * @parent: parent node
- * Return: pointer to the root node
- */
-avl_t *node_insertion(int *array, int start, int end, avl_t *parent)
-{
-	int mid_index;
-	avl_t *root;
-
-	if (start > end)
-		return (NULL);
-	mid_index = (start + end) / 2;
-	root = node_creator(parent, array[mid_index]);
-	if (!root)
-		return (NULL);
-	if (mid_index != start)
-		root->left = node_insertion(array, start, mid_index - 1, root);
-	if (mid_index != end)
-		root->right = node_insertion(array, mid_index + 1, end, root);
-
-	return (root);    
-
-}
-
-/**
- * sorted_array_to_avl - convert a sorted array to AVL
- * 
- * @array: array to convert 
- * @size: size of array
- * Return: pointer to root
+ * sorted_array_to_avl - create binary tree
+ * @array: The array to convert
+ * @size: Size of the array
+ * Return: header
  */
 avl_t *sorted_array_to_avl(int *array, size_t size)
 {
-	avl_t *root;
-	if (!array)
+	avl_t *header = NULL;
+
+	if (array == NULL)
 		return (NULL);
 
-	root = node_insertion(array, 0, size - 1, NULL);
-	return (root);
+	if (nodes_binary(array, 0, (int)size - 1, &header) == NULL)
+		return (NULL);
+	return (header);
+}
+/**
+ * nodes_binary - create binary tree
+ * @array: The array to convert
+ * @p1: initial position
+ * @p2: final position
+ * @header: node to create
+ * Return: header
+ */
+avl_t *nodes_binary(int *array, int p1, int p2, avl_t **header)
+{
+	avl_t *new_node = NULL, *left = NULL, *right = NULL;
+	int middle;
+
+	if (p1 > p2)
+		return (NULL);
+
+	middle = (p2 + p1) / 2;
+
+	nodes_binary(array, p1, middle - 1, &left);
+	nodes_binary(array, middle + 1, p2, &right);
+
+	new_node = malloc(sizeof(avl_t));
+	if (new_node == NULL)
+		return (NULL);
+
+	new_node->n = array[middle];
+	new_node->parent = NULL;
+	new_node->left = left;
+	new_node->right = right;
+
+	if (left != NULL)
+		left->parent = new_node;
+
+	if (right != NULL)
+		right->parent = new_node;
+
+	*header = new_node;
+	return (new_node);
 }
