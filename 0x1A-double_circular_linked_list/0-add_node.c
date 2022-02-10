@@ -1,83 +1,66 @@
+#include "list.h"
+
 /**
- * create_node - Creates a node with the given data
- * @str: the string to copy into the new node
- * Return: pointer to the newly created node
- */
+* create_node - creates a new node
+* @str: data for a new node
+* Return: a new node or NULL if failed
+*/
 List *create_node(char *str)
 {
-	List *new = NULL;
+	List *node;
 
-	new = malloc(sizeof(List));
-	if (!new)
+	node = malloc(sizeof(*node));
+	if (!node)
 		return (NULL);
-	new->str = strdup(str);
-	if (!new->str)
+	node->str = strdup(str);
+	if (!node->str)
+	{
+		free(node->str);
 		return (NULL);
-	new->next = NULL;
-	new->prev = NULL;
-	return (new);
+	}
+	node->next = node->prev = NULL;
+	return (node);
 }
 
 /**
- * add_node_end - Adds a new node to the end of a double circular linked list
- * @list: the list to modify
- * @str: the string to copy into the new node
- * Return: a pointer to the newly added node
- */
+* add_node_end - add a node at the end of circular linked list
+* @list: pointer to a list
+* @str: data for a new node
+* Return: a new node or NULL if failed
+*/
 List *add_node_end(List **list, char *str)
 {
-	List *last, *new;
+	List *end, *node;
 
-	new = create_node(str);
-	if (!new)
+	if (!list || !str)
 		return (NULL);
-
-	if (!*list)
+	node = create_node(str);
+	if (!node)
+		return (NULL);
+	if (*list)
 	{
-		*list = new;
-		new->next = new;
-		new->prev = new;
+		end = (*list)->prev;
+		end->next = node;
+		node->prev = end;
+		node->next = *list;
+		(*list)->prev = node;
 	}
 	else
 	{
-		last = (*list)->prev;
-		last->next = new;
-		(*list)->prev = new;
-		new->prev = last;
-		new->next = (*list);
+		*list = node;
+		node->prev = node->next = node;
 	}
-	return (new);
+
+	return (node);
 }
 
 /**
- * add_node_begin - Adds a new node to the beginning of a double circular
- * linked list
- * @list: the list to modify
- * @str: the string to copy into the new node
- * Return: a pointer to the newly added node
- */
+* add_node_begin - add a node at the beginning of circular linked list
+* @list: pointer to a list
+* @str: data for a new node
+* Return: a new node or NULL if failed
+*/
 List *add_node_begin(List **list, char *str)
 {
-	List *last, *new;
-
-	new = create_node(str);
-	if (!new)
-		return (NULL);
-
-	if (!*list)
-	{
-		*list = new;
-		new->next = new;
-		new->prev = new;
-	}
-	else
-	{
-		last = (*list)->prev;
-		last->next = new;
-		(*list)->prev = new;
-		new->prev = last;
-		new->next = (*list);
-		*list = new;
-	}
-	return (new);
+	return (add_node_end(list, str) ? *list = (*list)->prev : NULL);
 }
