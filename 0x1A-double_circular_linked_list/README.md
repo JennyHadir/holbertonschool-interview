@@ -17,7 +17,7 @@
 
 ## Tasks
 
-0. [Add Nodes] (https://github.com/JennyHadir/holbertonschool-interview/blob/main/0x1A-double_circular_linked_list/0-add_node.c)
+0. (Add Nodes) [https://github.com/JennyHadir/holbertonschool-interview/blob/main/0x1A-double_circular_linked_list/0-add_node.c]
 
 ### Create the source file 0-add_node.c that contains the following functions:
 
