@@ -13,7 +13,7 @@
 * All your files must be executable
 
 ## Tasks
-0. [Island Perimeter]()
+0. [Island Perimeter](https://github.com/JennyHadir/holbertonschool-interview/tree/main/0x1C-island_perimeter)
 
 * Create a function def island_perimeter(grid): that returns the perimeter of the island described in grid:
 
