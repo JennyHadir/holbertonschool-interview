@@ -3,14 +3,9 @@
 
 
 def pascal_triangle(n):
-    """pascals_triangle function"""
-    res = []
-
-    for i in range(n):
-        a = [None for _ in range(i + 1)]
-        a[0], a[-1] = 1, 1
-        for j in range(1, len(a) - 1):
-            a[j] = res[i - 1][j - 1] + res[i - 1][j]
-        res.append(a)
-
-    return
+    """Computes N rows of Pascal's Triangle"""
+    pascal = [[1]]
+    for _ in range(n - 1):
+        pascal += [[1] + [pascal[-1][i] + pascal[-1][i + 1]
+                   for i in range(len(pascal[-1]) - 1)] + [1]]
+    return pascal if n > 0 else []
