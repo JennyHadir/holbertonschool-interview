@@ -13,33 +13,23 @@
  */
 int regex_match(char const *str, char const *pattern)
 {
-	int matches, i, j;
-	matches = 1;
-	i = j = 0;
-
+		int cheks1 = 0, checks2 = 0;
 
 	if (!str || !pattern)
 		return (0);
-	while (str[i] != '\0' && pattern[j] != '\0' && matches != 0)
-	{
-		
-		if (strlen(str) != strlen(pattern))
-		{
-		    if (strchr(pattern, '*') == NULL && strchr(pattern, '.') == NULL)
-		        matches = 0;
-		}
-		else if (str[i] == pattern[j])
-		{
-			matches = 1;
-		}
-		else if (pattern[j] == '*' || pattern[j] == '.')
-		{
-		    return (matches);
-		}
-		else
-			matches = 0;
-		i++;
-		j++;
-	}
-	return (matches);	
+
+	cheks1 = *str && (*str == *pattern || *pattern == '.');
+	checks2 = *(pattern + 1) == '*';
+
+	if (!*str && !checks2)
+		return (*pattern ? 0 : 1);
+
+	if (cheks1 && checks2)
+		return (regex_match(str + 1, pattern) || regex_match(str, pattern + 2));
+	else if (cheks1 && !checks2)
+		return (regex_match(str + 1, pattern + 1));
+	else if (checks2)
+		return (regex_match(str, pattern + 2));
+
+	return (0);
 }
